@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+ <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<title>编辑学生</title>
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="https://v3.bootcss.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="https://v3.bootcss.com/examples/signin/signin.css" rel="stylesheet">
+     <link href="https://v3.bootcss.com/examples/dashboard/dashboard.css" rel="stylesheet">
+    <link href="https://v3.bootcss.com/examples/navbar/navbar.css" rel="stylesheet">
+    <script src="https://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <ul class="nav navbar-nav">
+            <li ><a class="navbar-brand" href="/students/index">查看所有学生</a></li>
+            </ul>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="/students/add">添加学生</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">>
+            <li> <form class="navbar-form navbar-right" action="/students/search" method="post">
+            <input type="text" class="form-control" name="number" placeholder="请输入学号查找">
+          </form></li>
+              <li><a href="#" onclick="myFunction()">注销用户</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+ <script>
+function myFunction(){
+	var r=confirm("是否确定注销!");
+	if (r==true){
+		window.location.href="logout";
+	}
+	else{
+	}
+}
+</script>
+<form class="form-signin" th:action="@{/students/editsave}" method="post" role="form">
+<table>
+        <tr>
+        <td><label for="inputEmail" >学号：&nbsp;&nbsp;&nbsp;</label></td>
+        <td><input type="text" id="user"  name="number" readonly="readonly" th:field="${student.number}" class="form-control" placeholder="请输入学号" required autofocus></td>
+        </tr>
+        <tr>
+        <td><label for="inputPassword" >姓名： </label></td>
+        <td><input type="text" name="sname" id="sname" th:field="${student.sname}"  class="form-control" placeholder="请输入姓名" required></td>
+        </tr>
+        <tr>
+        <td><label for="inputEmail" >年龄： </label></td>
+        <td><input type="text" id="age" nname="age" th:field="${student.age}" class="form-control" placeholder="请输入年龄" required autofocus></td>
+        </tr>
+        <tr>
+        <td><label for="inputEmail" >性别： </label></td>
+        <td><input type="text" id="gender" name="gender" th:field="${student.gender}" class="form-control" placeholder="请输入性别" required autofocus></td>
+        </tr>
+        <tr>
+        <td><label for="inputEmail" >班级: </label></td>
+        <td><input type="text" id="sclass" name="sclass" readonly="readonly" th:field="${student.sclass}" class="form-control" placeholder="请输入班级" required autofocus></td>
+        </tr>
+</table>
+<br><br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="" value="提交" onclick="return check()">提交</button>
+      </form>
+</body>
+</html>

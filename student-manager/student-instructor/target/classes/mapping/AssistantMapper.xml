@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.student.dao.AssistantMapper"> 
+  <resultMap id="AssistantResult" type="org.student.entity.Assistants">
+   <result column="assname" jdbcType="VARCHAR" property="assname" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="sclass" jdbcType="VARCHAR" property="sclass" />
+  </resultMap>
+  
+   <resultMap id="AdminResult" type="org.student.entity.Admin">
+   <result column="adminename" jdbcType="VARCHAR" property="adminename" />
+    <result column="username" jdbcType="INTEGER" property="username" />
+    <result column="password" jdbcType="INTEGER" property="password" />
+  </resultMap>
+  
+ 
+    <select id="selectNameByPrimaryKey" parameterType="java.lang.Integer" resultMap="AdminResult">
+    select * from admine
+    where username = #{username,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="AssistantResult">
+    select 
+    s.assname, s.username, s.password ,a.sclass 
+    from assistant s , assisinformation a where s.username= #{username,jdbcType=VARCHAR} and a.assname= #{username,jdbcType=VARCHAR};
+  </select>
+  
+   <select id="SelectByPrimaryKey" parameterType="java.lang.String" resultMap="AssistantResult">
+    select 
+    s.assname, s.username, s.password ,a.sclass 
+    from assistant s , assisinformation a where s.username= #{username,jdbcType=INTEGER} and a.assname= #{username,jdbcType=INTEGER};
+  </select>
+  
+  <update id="updateByPrimaryKey" parameterType="org.student.entity.Assistants">
+    update assistant
+    set assname = #{assname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+  
+ <update id="updateinformationByPrimaryKey" parameterType="org.student.entity.Assistants">
+    update assisinformation
+    set  sclass  = #{sclass,jdbcType=VARCHAR}
+    where assname = #{username,jdbcType=VARCHAR}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from assistant
+    where username = #{username,jdbcType=VARCHAR}
+  </delete>
+  
+   <delete id="deleteinformationByPrimaryKey" parameterType="java.lang.String">
+    delete from assisinformation
+    where assname = #{username,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="checkUserPwd" parameterType="java.lang.Integer" resultMap="AdminResult">
+  	select * from admine
+  	where username=#{username,jdbcType=INTEGER}
+  	and password=#{password,jdbcType=INTEGER}
+  </select>
+    
+<insert id="insert" parameterType="org.student.entity.Assistants">
+    insert into assistant (assname, username, password)
+    values (#{assname,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})   
+  </insert>
+  
+  <insert id="insertassisinformation" parameterType="org.student.entity.Assistants">
+    insert into assisinformation (assname, sclass) values (#{username,jdbcType=VARCHAR}, #{sclass,jdbcType=VARCHAR});
+  </insert>
+    
+  <select id="listByAll" resultMap="AssistantResult">
+  	select s.assname, s.username, s.password ,a.sclass from assistant s left join assisinformation a on s.username=a.assname;
+  </select>
+  
+</mapper>

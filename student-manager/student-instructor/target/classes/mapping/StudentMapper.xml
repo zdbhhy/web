@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.student.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="org.student.entity.Student">
+    <id column="number" jdbcType="INTEGER" property="number" />
+    <result column="sname" jdbcType="VARCHAR" property="sname" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="sclass" jdbcType="VARCHAR" property="sclass" />
+  </resultMap>
+  
+  <resultMap id="adminResult" type="org.student.entity.Assisant">
+   <result column="assname" jdbcType="VARCHAR" property="assname" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+  
+  <resultMap id="informationResult" type="org.student.entity.assisinformation">
+   <result column="assname" jdbcType="VARCHAR" property="assname" />
+    <result column="sclass" jdbcType="VARCHAR" property="sclass" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    number, sname, age, gender, sclass
+  </sql>
+  
+   <sql id="admin_Column_List">
+    assname, username, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from students
+    where number = #{number,jdbcType=INTEGER}
+  </select>
+  
+   <select id="SelectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from students
+    where number = #{number,jdbcType=INTEGER}
+  </select>
+  
+    <select id="selectNameByPrimaryKey" parameterType="java.lang.Integer" resultMap="adminResult">
+    select 
+    <include refid="admin_Column_List" />
+    from assistant
+    where username = #{username,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectClassByPrimaryKey" parameterType="java.lang.Integer" resultType="String">
+    select 
+    sclass
+    from assisinformation
+    where assname = #{assname,jdbcType=INTEGER}
+  </select>
+  
+  <select id="checkUserPwd" parameterType="java.lang.String" resultMap="adminResult">
+  	select * from assistant
+  	where username=#{username,jdbcType=VARCHAR}
+  	and password=#{password,jdbcType=VARCHAR}
+  </select>
+    
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from students
+    where number = #{number,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.student.entity.Student">
+    insert into students (number, sname, age, gender, sclass)
+    values (#{number,jdbcType=INTEGER}, #{sname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{gender,jdbcType=VARCHAR}, #{sclass,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.student.entity.Student">
+    insert into students
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="number != null">
+        number,
+      </if>
+      <if test="sname != null">
+        sname,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="sclass != null">
+        sclass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+     <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null">
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="sclass != null">
+        #{sclass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.student.entity.Student">
+    update students
+    <set>
+      <if test="name != null">
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+     <if test="age != null">
+       age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null">
+       gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="sclass != null">
+       sclass = #{sclass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where number = #{number,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.student.entity.Student">
+    update students
+    set sname = #{sname,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=VARCHAR},
+      sclass = #{sclass,jdbcType=VARCHAR}
+    where number = #{number,jdbcType=INTEGER}
+  </update>
+  <select id="listByAll" resultMap="BaseResultMap">
+  	select * from students
+  </select>
+  
+  <select id="listByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from students where sname like concat("%", #{user},"%")
+  </select>
+  
+  <select id="listBysclass" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from students where sclass = #{sclass,jdbcType=VARCHAR}
+  </select>
+</mapper>
